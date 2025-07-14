@@ -26,7 +26,7 @@
             --success-color: #2ed573;
             --navbar-height: 70px;
             --shadow: 0 0 15px rgba(0, 255, 255, 0.15);
-            --shadow-strong: 0 0 30px rgba(0, 255, 255, 0.3);
+            --shadow-strong: 0 0 30px rgba(0, 255, 255, 0.4);
             --border-radius-sm: 8px;
             --border-radius-md: 12px;
         }
@@ -40,7 +40,7 @@
             overflow-x: hidden;
         }
 
-        /* --- HIỆU ỨNG NỀN MATRIX --- */
+        /* --- HIỆU ỨNG NỀN VÀ CON TRỎ --- */
         #matrix-canvas {
             position: fixed;
             top: 0;
@@ -49,6 +49,17 @@
             height: 100%;
             z-index: -1;
             opacity: 0.3;
+        }
+        #mouse-glow {
+            position: fixed;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.06) 0%, rgba(0, 255, 255, 0) 60%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            transition: background 0.2s;
         }
 
         /* --- MÀN HÌNH CHỜ (PRELOADER) --- */
@@ -64,19 +75,15 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            transition: opacity 0.7s ease, visibility 0.7s ease;
+            transition: opacity 0.8s ease, visibility 0.8s ease, transform 0.8s ease;
         }
         #preloader.loaded {
             opacity: 0;
             visibility: hidden;
-        }
-        .rabbit-loader {
-            width: 100px;
-            height: 100px;
-            position: relative;
+            transform: scale(1.5);
         }
         .rabbit-loader img {
-            width: 100%;
+            width: 120px;
             animation: hop 0.8s infinite ease-in-out;
         }
         .loader-text {
@@ -97,10 +104,22 @@
         h3 { font-family: 'Share Tech Mono', monospace; font-size: 1.8rem; color: var(--text-color); margin-bottom: 15px; font-weight: 700;}
         .section-subtitle { text-align: center; max-width: 650px; margin: 0 auto 60px auto; color: var(--text-secondary); font-size: 1.1rem; }
         
+        /* --- HIỆU ỨNG CUỘN TRANG --- */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* --- THANH ĐIỀU HƯỚNG (NAVBAR) --- */
         .navbar { background: rgba(10, 12, 16, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); height: var(--navbar-height); padding: 0 20px; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid var(--border-color); }
         .navbar .container { display: flex; justify-content: space-between; align-items: center; height: 100%;}
-        .navbar .logo { font-size: 1.8rem; font-weight: 700; color: var(--accent-color); text-decoration: none; text-shadow: 0 0 5px var(--accent-color); font-family: 'Share Tech Mono', monospace; }
+        .logo-link { display: flex; align-items: center; text-decoration: none; }
+        .logo-img { height: 45px; filter: drop-shadow(0 0 8px var(--accent-color)); }
         .nav-menu { display: flex; list-style: none; align-items: center; }
         .nav-item { margin-left: 30px; }
         .nav-link { text-decoration: none; color: var(--text-color); font-weight: 500; transition: color 0.3s, text-shadow 0.3s; padding: 5px 0; position: relative; }
@@ -116,16 +135,14 @@
         .hero p { font-size: 1.3rem; max-width: 600px; margin: 20px auto 40px auto; opacity: 0.9; color: var(--text-secondary); }
         
         /* --- CÁC THÀNH PHẦN CHUNG (BUTTON, CARD...) --- */
-        .promo-banner { background: var(--accent-gradient); color: var(--light-text-color); text-align: center; padding: 20px; font-size: 1.2rem; font-weight: 500; font-family: 'Share Tech Mono', monospace; }
-        .promo-banner i { margin-right: 10px; }
         .btn { display: inline-block; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: 700; transition: all 0.3s ease; border: 1px solid var(--accent-color); cursor: pointer; }
         .btn-primary { background: transparent; color: var(--accent-color); box-shadow: inset 0 0 10px rgba(0,255,255,0.3), 0 0 10px rgba(0,255,255,0.3); }
         .btn-primary:hover { transform: translateY(-4px) scale(1.02); background: var(--accent-color); color: var(--light-text-color); box-shadow: 0 0 25px var(--accent-color), 0 0 40px var(--accent-color); }
 
         /* --- TÍNH NĂNG (FEATURES) --- */
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .feature-card { background: var(--surface-color); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 40px 30px; border-radius: var(--border-radius-md); box-shadow: var(--shadow); transition: transform 0.3s, box-shadow 0.3s; text-align: center; border: 1px solid var(--border-color); }
-        .feature-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-strong); border-color: var(--accent-color); }
+        .feature-card { background: var(--surface-color); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 40px 30px; border-radius: var(--border-radius-md); box-shadow: var(--shadow); text-align: center; border: 1px solid transparent; border-image: linear-gradient(to bottom right, rgba(0,255,255,0.3), rgba(0,255,255,0.1)) 1; transition: transform 0.3s, box-shadow 0.3s, border-image 0.3s; }
+        .feature-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-strong); border-image: linear-gradient(to bottom right, var(--accent-color), rgba(0,255,255,0.2)) 1; }
         .feature-card .icon-wrapper { background: var(--accent-gradient); color: var(--light-text-color); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px auto; font-size: 2.5rem; box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
         
         /* --- BẢNG GIÁ (PRICING) --- */
@@ -145,7 +162,7 @@
         .testimonial-card { background-color: var(--surface-color); padding: 30px; border-radius: var(--border-radius-md); box-shadow: var(--shadow); border-left: 5px solid var(--accent-color); border-top: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
         .testimonial-card p { font-style: italic; color: var(--text-secondary); margin-bottom: 25px; }
         .testimonial-author { display: flex; align-items: center; }
-        .testimonial-author img { width: 60px; height: 60px; border-radius: 50%; margin-right: 20px; border: 3px solid var(--border-color); }
+        .testimonial-author img { width: 60px; height: 60px; border-radius: 50%; margin-right: 20px; border: 3px solid var(--border-color); background-color: #fff; }
         .author-info strong { display: block; font-size: 1.1rem; color: var(--text-color); }
         .stars { color: #f1c40f; text-shadow: 0 0 5px #f1c40f; }
 
@@ -204,6 +221,7 @@
         }
 
         @media (max-width: 768px) {
+            #mouse-glow { display: none; } /* Tắt hiệu ứng chuột trên mobile */
             section { padding: 80px 0; }
             h2 { font-size: 2.2rem; }
             .section-subtitle { font-size: 1rem; margin-bottom: 40px; }
@@ -217,21 +235,20 @@
     </style>
 </head>
 <body>
-
     <div id="preloader">
         <div class="rabbit-loader">
-             <img src="https://i.ibb.co/L5Txx0w/rabbit-icon.png" alt="Loading...">
+            <img src="https://vutienthan.github.io/vpn_secure/rabbit_secure.jpg" alt="Loading...">
         </div>
         <div class="loader-text">INITIALIZING CONNECTION...</div>
     </div>
 
     <canvas id="matrix-canvas"></canvas>
+    <div id="mouse-glow"></div>
 
     <header class="navbar">
         <div class="container">
-            <a href="#" class="logo">
-                <i class="fa-solid fa-bolt"></i>
-                <span>Rabbit VPN</span>
+            <a href="#" class="logo-link">
+                <img src="https://vutienthan.github.io/vpn_secure/rabbit_secure.jpg" alt="Rabbit VPN Logo" class="logo-img">
             </a>
             <ul class="nav-menu" id="nav-menu">
                 <li class="nav-item"><a href="#features" class="nav-link" data-key="nav_features">Tính Năng</a></li>
@@ -253,7 +270,7 @@
 
     <main>
         <section class="hero">
-            <div class="container">
+            <div class="container reveal-on-scroll">
                 <h1 data-key="hero_title">Giải Phóng Internet Của Bạn</h1>
                 <p data-key="hero_subtitle">Trải nghiệm tốc độ thỏ non, bảo mật cấp quân sự. Lướt web tự do, không giới hạn.</p>
                 <a href="#pricing" class="btn btn-primary" data-key="hero_button">Xem Các Gói Dịch Vụ</a>
@@ -262,20 +279,22 @@
 
         <section id="features">
             <div class="container">
-                <h2 data-key="features_title">Tại Sao Rabbit VPN Là Số 1?</h2>
-                <p class="section-subtitle" data-key="features_subtitle">Chúng tôi không chỉ bán VPN, chúng tôi mang đến sự tự do và an toàn tuyệt đối trên không gian mạng.</p>
+                <div class="reveal-on-scroll">
+                    <h2 data-key="features_title">Tại Sao Rabbit VPN Là Số 1?</h2>
+                    <p class="section-subtitle" data-key="features_subtitle">Chúng tôi không chỉ bán VPN, chúng tôi mang đến sự tự do và an toàn tuyệt đối trên không gian mạng.</p>
+                </div>
                 <div class="features-grid">
-                    <div class="feature-card">
+                    <div class="feature-card reveal-on-scroll">
                         <div class="icon-wrapper"><i class="fas fa-rocket"></i></div>
                         <h3 data-key="feature1_title">Tốc Độ Siêu Nhanh</h3>
                         <p data-key="feature1_desc">Máy chủ mạnh mẽ đảm bảo kết nối nhanh và ổn định để xem phim, chơi game.</p>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card reveal-on-scroll" style="transition-delay: 200ms;">
                         <div class="icon-wrapper"><i class="fas fa-shield-alt"></i></div>
                         <h3 data-key="feature2_title">Bảo Mật Tuyệt Đối</h3>
                         <p data-key="feature2_desc">Mã hóa cấp quân sự AES-256 giúp bảo vệ dữ liệu cá nhân của bạn khỏi mọi sự dòm ngó.</p>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card reveal-on-scroll" style="transition-delay: 400ms;">
                         <div class="icon-wrapper"><i class="fas fa-globe-asia"></i></div>
                         <h3 data-key="feature3_title">Vượt Mọi Giới Hạn</h3>
                         <p data-key="feature3_desc">Dễ dàng truy cập các trang web, dịch vụ và ứng dụng bị chặn tại khu vực của bạn.</p>
@@ -286,10 +305,12 @@
 
         <section id="pricing">
             <div class="container">
-                <h2 data-key="pricing_title">Gói Dịch Vụ Cho Mọi Nhu Cầu</h2>
-                <p class="section-subtitle" data-key="pricing_subtitle">Chọn gói phù hợp nhất với bạn. Minh bạch, không chi phí ẩn.</p>
+                <div class="reveal-on-scroll">
+                    <h2 data-key="pricing_title">Gói Dịch Vụ Cho Mọi Nhu Cầu</h2>
+                    <p class="section-subtitle" data-key="pricing_subtitle">Chọn gói phù hợp nhất với bạn. Minh bạch, không chi phí ẩn.</p>
+                </div>
                 <div class="pricing-grid">
-                    <div class="pricing-card" style="order: 1;">
+                    <div class="pricing-card reveal-on-scroll" style="order: 1;">
                         <h3 data-key="price_trial_title">Khởi Động</h3>
                         <div class="price" data-key="price_trial_cost">Miễn Phí</div>
                         <ul>
@@ -299,7 +320,7 @@
                         </ul>
                         <a href="#" id="trial-button" class="btn btn-primary" data-key="price_trial_button">Nhận Dùng Thử</a>
                     </div>
-                    <div class="pricing-card popular" style="order: 2;">
+                    <div class="pricing-card popular reveal-on-scroll" style="order: 2;">
                         <div class="popular-badge" data-key="price_popular_badge">Siêu Phổ Biến</div>
                         <h3 data-key="price_combo_title">Toàn Diện</h3>
                         <div class="price"><span data-key="price_combo_cost">99.000đ</span> <span class="period" data-key="price_period_2">/ tháng</span></div>
@@ -311,7 +332,7 @@
                         </ul>
                         <a href="#" id="buy-combo" class="btn btn-primary" data-key="price_buy_button_2">Đăng Ký Gói Toàn Diện</a>
                     </div>
-                    <div class="pricing-card" style="order: 3;">
+                    <div class="pricing-card reveal-on-scroll" style="order: 3;">
                         <h3 data-key="price_intl_title">Quốc Tế</h3>
                         <div class="price"><span data-key="price_intl_cost">69.000đ</span> <span class="period" data-key="price_period">/ tháng</span></div>
                         <ul>
@@ -328,33 +349,35 @@
 
         <section id="testimonials">
             <div class="container">
-                <h2 data-key="testimonials_title">Khách Hàng Nói Gì Về Chúng Tôi?</h2>
-                <p class="section-subtitle" data-key="testimonials_subtitle">Niềm tin của bạn là thành công lớn nhất của Rabbit VPN.</p>
+                <div class="reveal-on-scroll">
+                    <h2 data-key="testimonials_title">Khách Hàng Nói Gì Về Chúng Tôi?</h2>
+                    <p class="section-subtitle" data-key="testimonials_subtitle">Niềm tin của bạn là thành công lớn nhất của Rabbit VPN.</p>
+                </div>
                 <div class="testimonials-grid">
-                     <div class="testimonial-card">
+                     <div class="testimonial-card reveal-on-scroll">
                         <p data-key="testimonial1_text">"Từ khi dùng Rabbit VPN, mình không còn lo lắng về việc mạng chậm hay bị chặn nữa. Dịch vụ quá tuyệt vời, đặc biệt là khi chơi game ở server nước ngoài!"</p>
                         <div class="testimonial-author">
-                            <img src="https://i.pravatar.cc/100?u=hoangan" alt="User Avatar">
+                            <img src="https://robohash.org/hoangan.png?set=set4" alt="User Avatar">
                             <div class="author-info">
                                 <strong data-key="testimonial1_author">Hoàng An</strong>
                                 <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                             </div>
                         </div>
                     </div>
-                    <div class="testimonial-card">
+                    <div class="testimonial-card reveal-on-scroll" style="transition-delay: 200ms;">
                          <p data-key="testimonial2_text">"Tôi sống ở Việt Nam và cần truy cập các dịch vụ của Nga. Rabbit VPN hoạt động hoàn hảo! Ổn định và nhanh chóng. Rất khuyến khích!"</p>
                         <div class="testimonial-author">
-                            <img src="https://i.pravatar.cc/100?u=alexey" alt="User Avatar">
+                            <img src="https://robohash.org/alexeyorlov.png?set=set4" alt="User Avatar">
                             <div class="author-info">
                                 <strong data-key="testimonial2_author">Alexey Orlov</strong>
                                  <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
                             </div>
                         </div>
                     </div>
-                     <div class="testimonial-card">
+                     <div class="testimonial-card reveal-on-scroll" style="transition-delay: 400ms;">
                          <p data-key="testimonial3_text">"Giao diện dễ dùng, tốc độ ổn định, giá lại hợp lý. Gói Toàn Diện đúng là không giới hạn thật. 10 điểm cho chất lượng!"</p>
                         <div class="testimonial-author">
-                            <img src="https://i.pravatar.cc/100?u=minhthu" alt="User Avatar">
+                            <img src="https://robohash.org/minhthu.png?set=set4" alt="User Avatar">
                             <div class="author-info">
                                 <strong data-key="testimonial3_author">Minh Thư</strong>
                                  <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
@@ -367,9 +390,11 @@
 
         <section id="guide">
             <div class="container">
-                <h2 data-key="guide_title">Bắt Đầu Chỉ Trong 4 Bước</h2>
-                <p class="section-subtitle" data-key="guide_subtitle">Cài đặt dễ dàng, kết nối tức thì.</p>
-                <div class="guide-content">
+                <div class="reveal-on-scroll">
+                    <h2 data-key="guide_title">Bắt Đầu Chỉ Trong 4 Bước</h2>
+                    <p class="section-subtitle" data-key="guide_subtitle">Cài đặt dễ dàng, kết nối tức thì.</p>
+                </div>
+                <div class="guide-content reveal-on-scroll">
                     <ol class="guide-steps">
                         <li class="guide-step">
                             <div class="step-number">1</div>
@@ -415,7 +440,7 @@
         </section>
         
         <section id="contact">
-            <div class="container">
+            <div class="container reveal-on-scroll">
                 <h2 data-key="contact_title">Sẵn Sàng Bắt Đầu?</h2>
                 <p class="section-subtitle" data-key="contact_subtitle">Liên hệ với chúng tôi qua Zalo hoặc Telegram để được tư vấn và đăng ký ngay lập tức!</p>
                 <div class="contact-buttons">
@@ -441,7 +466,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         // ----- HIỆU ỨNG VÀ CHỨC NĂNG MỚI -----
 
-        // 1. Màn hình chờ
+        // 1. Màn hình chờ (Sửa lỗi và nâng cấp)
         const preloader = document.getElementById('preloader');
         window.addEventListener('load', () => {
             preloader.classList.add('loaded');
@@ -450,41 +475,50 @@
         // 2. Hiệu ứng Matrix Rain
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
-
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
         const binary = "01";
         const fontSize = 16;
         const columns = canvas.width / fontSize;
-
         const drops = [];
-        for (let x = 0; x < columns; x++) {
-            drops[x] = 1;
-        }
-
+        for (let x = 0; x < columns; x++) drops[x] = 1;
         function drawMatrix() {
             ctx.fillStyle = "rgba(10, 12, 16, 0.05)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = "rgba(0, 255, 255, 0.5)"; // Màu của số nhị phân
+            ctx.fillStyle = "rgba(0, 255, 255, 0.5)";
             ctx.font = fontSize + "px 'Share Tech Mono', monospace";
-
             for (let i = 0; i < drops.length; i++) {
                 const text = binary.charAt(Math.floor(Math.random() * binary.length));
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
                 drops[i]++;
             }
         }
         setInterval(drawMatrix, 40);
+        
+        // 3. Hiệu ứng con trỏ chuột phát sáng
+        const mouseGlow = document.getElementById('mouse-glow');
+        window.addEventListener('mousemove', (e) => {
+            mouseGlow.style.left = e.clientX + 'px';
+            mouseGlow.style.top = e.clientY + 'px';
+        });
+
+        // 4. Hiệu ứng hiện dần khi cuộn trang
+        const revealElements = document.querySelectorAll('.reveal-on-scroll');
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        revealElements.forEach(el => revealObserver.observe(el));
+
 
         // ----- CODE GỐC (ĐÃ GIỮ NGUYÊN) -----
-        const zaloNumber = '84964092408'; // THAY SỐ ZALO CỦA BẠN VÀO ĐÂY (bắt đầu bằng mã quốc gia 84)
-        const telegramUsername = 'YourTelegramUsername'; // THAY USERNAME TELEGRAM CỦA BẠN VÀO ĐÂY
+        const zaloNumber = '84123456789'; 
+        const telegramUsername = 'YourTelegramUsername';
 
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('nav-menu');
@@ -502,10 +536,9 @@
 
         const translations = {
             'vi': {
-                logo: "<i class='fa-solid fa-bolt'></i> Rabbit VPN", site_title: "Rabbit VPN - Nhanh, Bảo Mật, Ẩn Danh",
+                site_title: "Rabbit VPN - Nhanh, Bảo Mật, Ẩn Danh",
                 nav_features: "Tính Năng", nav_pricing: "Bảng Giá", nav_testimonials: "Đánh Giá", nav_guide: "Hướng Dẫn",
                 hero_title: "Giải Phóng Internet Của Bạn", hero_subtitle: "Trải nghiệm tốc độ thỏ non, bảo mật cấp quân sự. Lướt web tự do, không giới hạn.", hero_button: "Xem Các Gói Dịch Vụ",
-                promo_banner: "Khuyến mãi chớp nhoáng: Đăng ký gói Toàn Diện ngay hôm nay!",
                 features_title: "Tại Sao Rabbit VPN Là Số 1?", features_subtitle: "Chúng tôi không chỉ bán VPN, chúng tôi mang đến sự tự do và an toàn tuyệt đối trên không gian mạng.",
                 feature1_title: "Tốc Độ Siêu Nhanh", feature1_desc: "Máy chủ mạnh mẽ đảm bảo kết nối nhanh và ổn định để xem phim, chơi game.", feature2_title: "Bảo Mật Tuyệt Đối", feature2_desc: "Mã hóa cấp quân sự AES-256 giúp bảo vệ dữ liệu cá nhân của bạn khỏi mọi sự dòm ngó.", feature3_title: "Vượt Mọi Giới Hạn", feature3_desc: "Dễ dàng truy cập các trang web, dịch vụ và ứng dụng bị chặn tại khu vực của bạn.",
                 pricing_title: "Gói Dịch Vụ Cho Mọi Nhu Cầu", pricing_subtitle: "Chọn gói phù hợp nhất với bạn. Minh bạch, không chi phí ẩn.",
@@ -531,10 +564,9 @@
                 contact_zalo: "Chat qua Zalo", contact_telegram: "Chat qua Telegram",
             },
             'en': {
-                logo: "<i class='fa-solid fa-bolt'></i> Rabbit VPN", site_title: "Rabbit VPN - Fast, Secure, Anonymous",
+                site_title: "Rabbit VPN - Fast, Secure, Anonymous",
                 nav_features: "Features", nav_pricing: "Pricing", nav_testimonials: "Reviews", nav_guide: "Guide",
                 hero_title: "Unleash Your Internet", hero_subtitle: "Experience rabbit-like speed and military-grade security. Browse freely, without limits.", hero_button: "Explore Our Plans",
-                promo_banner: "Flash Sale: Sign up for the Comprehensive plan today!",
                 features_title: "Why Rabbit VPN is #1?", features_subtitle: "We don't just sell a VPN; we deliver absolute freedom and safety in cyberspace.",
                 feature1_title: "Blazing Fast Speed", feature1_desc: "Powerful servers ensure a fast and stable connection for streaming and gaming.", feature2_title: "Absolute Security", feature2_desc: "Military-grade AES-256 encryption protects your personal data from prying eyes.", feature3_title: "Bypass All Limits", feature3_desc: "Easily access websites, services, and applications blocked in your region.",
                 pricing_title: "Plans For Every Need", pricing_subtitle: "Choose the plan that's right for you. Transparent, no hidden fees.",
@@ -610,7 +642,6 @@
             });
         };
         
-        // Initial setup
         const initialLang = localStorage.getItem('language') || 'vi';
         setLanguage(initialLang);
 
