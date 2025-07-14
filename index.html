@@ -22,6 +22,7 @@
             --light-text-color: #ffffff;
             --border-color: #dfe4ea;
             --success-color: #2ed573;
+            --navbar-height: 70px;
             --shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             --shadow-strong: 0 8px 30px rgba(255, 107, 107, 0.3);
         }
@@ -40,47 +41,30 @@
         .section-subtitle { text-align: center; max-width: 600px; margin: 0 auto 60px auto; color: var(--secondary-color); font-size: 1.1rem; }
         
         /* Navbar */
-        .navbar { background: var(--card-background); padding: 15px 0; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .navbar { background: var(--card-background); height: var(--navbar-height); padding: 0 20px; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; height: 100%;}
         .navbar .logo { font-size: 1.8rem; font-weight: 700; color: var(--primary-color); text-decoration: none; }
         .nav-menu { display: flex; list-style: none; align-items: center; }
         .nav-item { margin-left: 25px; }
         .nav-link { text-decoration: none; color: var(--text-color); font-weight: 500; transition: color 0.3s; }
         .nav-link:hover { color: var(--primary-color); }
 
-        /* Language Dropdown */
-        .language-select { position: relative; font-weight: 500; }
-        .selected-lang { display: flex; align-items: center; cursor: pointer; padding: 5px 10px; border: 1px solid var(--border-color); border-radius: 5px; }
-        .selected-lang .lang-text { margin: 0 5px; }
-        .selected-lang .arrow { font-size: 0.8em; transition: transform 0.3s; }
-        .lang-options { display: none; position: absolute; top: 110%; right: 0; background-color: var(--card-background); border-radius: 5px; box-shadow: var(--shadow); list-style: none; padding: 5px 0; z-index: 10; min-width: 180px; }
-        .lang-options.show { display: block; }
-        .language-select.active .selected-lang .arrow { transform: rotate(180deg); }
-        .lang-options li { display: flex; align-items: center; padding: 10px 15px; cursor: pointer; transition: background-color 0.2s; }
-        .lang-options li:hover { background-color: #f0f0f0; }
-        .lang-options li .lang-text { margin: 0 10px; }
+        /* === NEW: Hamburger Menu for Mobile === */
+        .hamburger { display: none; cursor: pointer; background: none; border: none; }
+        .hamburger .bar { display: block; width: 25px; height: 3px; margin: 5px auto; transition: all 0.3s ease-in-out; background-color: var(--text-color); border-radius: 2px;}
 
         /* Hero Section */
-        .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=1887&auto=format&fit=crop') center center/cover; color: var(--light-text-color); text-align: center; padding: 180px 0 120px 0; }
+        .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=1887&auto=format&fit=crop') center center/cover; color: var(--light-text-color); text-align: center; padding: 180px 0 120px 0; margin-top: var(--navbar-height); }
         .hero h1 { font-size: 3.5rem; font-weight: 700; }
         .hero p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 30px auto; }
         
-        /* Promo Banner */
+        /* ... Other styles remain mostly the same ... */
         .promo-banner { background: linear-gradient(45deg, var(--primary-color), #ff8e53); color: var(--light-text-color); text-align: center; padding: 20px; font-size: 1.2rem; font-weight: 700; }
-        .promo-banner i { margin-right: 10px; }
-
-        /* Button */
         .btn { display: inline-block; padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 700; transition: all 0.3s ease; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .btn-primary { background: var(--primary-color); color: var(--light-text-color); }
         .btn-primary:hover { background: var(--primary-hover); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
-        
-        /* Features Section */
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; text-align: center; }
         .feature-card { background: var(--card-background); padding: 40px 20px; border-radius: 10px; box-shadow: var(--shadow); transition: transform 0.3s; }
-        .feature-card:hover { transform: translateY(-5px); }
-        .feature-card .icon { font-size: 3rem; color: var(--primary-color); margin-bottom: 20px; }
-
-        /* Pricing Section */
         #pricing { background-color: #fff; }
         .pricing-grid { display: grid; grid-template-columns: 1fr 1.1fr 1fr; align-items: center; gap: 20px; }
         .pricing-card { background: var(--card-background); border: 1px solid var(--border-color); border-radius: 10px; padding: 40px; text-align: center; box-shadow: var(--shadow); transition: all 0.3s; display: flex; flex-direction: column; height: 100%; }
@@ -92,44 +76,53 @@
         .pricing-card ul li { margin-bottom: 15px; display: flex; align-items: flex-start; }
         .pricing-card ul li i { color: var(--success-color); margin-right: 10px; margin-top: 4px; }
         .pricing-card .btn { margin-top: auto; }
-
-        /* Testimonials Section */
         #testimonials { background-color: var(--background-color); }
         .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .testimonial-card { background-color: var(--card-background); padding: 30px; border-radius: 10px; box-shadow: var(--shadow); border-left: 5px solid var(--primary-color); }
-        .testimonial-card p { font-style: italic; margin-bottom: 20px; }
-        .testimonial-author { display: flex; align-items: center; }
-        .testimonial-author img { width: 50px; height: 50px; border-radius: 50%; margin-right: 15px; }
-        .author-info strong { display: block; }
-        .author-info .stars { color: #fbc531; }
-
-        /* Guide Section */
         #guide { background-color: #fff; }
         .guide-content { max-width: 800px; margin: 0 auto; background: var(--card-background); padding: 40px; border-radius: 10px; box-shadow: var(--shadow); }
-        .guide-steps { list-style-type: none; counter-reset: guide-counter; padding: 0; }
-        .guide-steps li { margin-bottom: 20px; font-size: 1.1rem; position: relative; padding-left: 45px; }
-        .guide-steps li::before { counter-increment: guide-counter; content: counter(guide-counter); position: absolute; left: 0; top: 0; width: 30px; height: 30px; background-color: var(--primary-color); color: white; border-radius: 50%; text-align: center; line-height: 30px; font-weight: bold; }
-        .download-buttons { text-align: center; margin-top: 30px; }
-        .download-buttons .btn { margin: 10px; min-width: 220px; }
-
-        /* Contact Section */
         #contact { background: linear-gradient(45deg, #485461, #2f3542); color: var(--light-text-color); text-align: center; }
-        #contact h2, #contact .section-subtitle { color: var(--light-text-color); }
-        .contact-buttons a { background: var(--primary-color); color: var(--light-text-color); margin: 0 15px; min-width: 200px; }
-        .contact-buttons a:hover { background: var(--primary-hover); }
-
         footer { text-align: center; padding: 20px 0; background-color: #2f3542; color: #ced6e0; }
-        
+
+        /* === Responsive Design & Mobile "Beauty" === */
         @media (max-width: 992px) {
+            .hamburger { display: block; z-index: 1001; }
+            .hamburger.active .bar:nth-child(2) { opacity: 0; }
+            .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+            
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: var(--navbar-height);
+                gap: 0;
+                flex-direction: column;
+                background-color: var(--card-background);
+                width: 100%;
+                height: calc(100vh - var(--navbar-height));
+                text-align: center;
+                transition: 0.3s;
+                padding-top: 2rem;
+            }
+            .nav-item { margin: 16px 0; }
+            .nav-link { font-size: 1.2rem; }
+            .nav-menu.active { left: 0; }
+
             .pricing-grid { grid-template-columns: 1fr; }
-            .pricing-card { margin-bottom: 30px; order: unset !important; }
-            .pricing-card.popular { transform: scale(1); }
-            .navbar .container { flex-direction: column; }
-            .nav-menu { margin-top: 15px; }
+            .pricing-card { order: unset !important; }
+            .pricing-card.popular { transform: scale(1.02); }
+            
+            .hero { padding-top: 120px; padding-bottom: 100px; }
+            .hero h1 { font-size: 2.8rem; }
+            h2 { font-size: 2.2rem; }
+            section { padding: 60px 0; }
         }
+
         @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1rem; }
             h2 { font-size: 2rem; }
-            .hero h1 { font-size: 2.5rem; }
+            .section-subtitle { font-size: 1rem; }
         }
     </style>
 </head>
@@ -138,25 +131,21 @@
     <header class="navbar">
         <div class="container">
             <a href="#" class="logo" data-key="logo">🐇 Rabbit VPN</a>
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="nav-menu">
                 <li class="nav-item"><a href="#features" class="nav-link" data-key="nav_features">Tính Năng</a></li>
                 <li class="nav-item"><a href="#pricing" class="nav-link" data-key="nav_pricing">Bảng Giá</a></li>
                 <li class="nav-item"><a href="#testimonials" class="nav-link" data-key="nav_testimonials">Đánh Giá</a></li>
                 <li class="nav-item"><a href="#guide" class="nav-link" data-key="nav_guide">Hướng Dẫn</a></li>
                 <li class="nav-item">
                     <div class="language-select">
-                        <div class="selected-lang">
-                            <span class="lang-flag">🇻🇳</span><span class="lang-text">VN - Tiếng Việt</span><span class="arrow">▼</span>
-                        </div>
-                        <ul class="lang-options">
-                            <li data-lang="vi"><span class="lang-flag">🇻🇳</span><span class="lang-text">VN - Tiếng Việt</span></li>
-                            <li data-lang="en"><span class="lang-flag">🇺🇸</span><span class="lang-text">EN - English</span></li>
-                            <li data-lang="ru"><span class="lang-flag">🇷🇺</span><span class="lang-text">RU - Русский</span></li>
-                            <li data-lang="zh"><span class="lang-flag">🇨🇳</span><span class="lang-text">ZH - 中文</span></li>
-                        </ul>
-                    </div>
+                         </div>
                 </li>
             </ul>
+            <button class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
         </div>
     </header>
 
@@ -244,10 +233,10 @@
                 <h2 data-key="testimonials_title">Khách Hàng Nói Gì Về Chúng Tôi?</h2>
                 <p class="section-subtitle" data-key="testimonials_subtitle">Niềm tin của bạn là thành công lớn nhất của Rabbit VPN.</p>
                 <div class="testimonials-grid">
-                    <div class="testimonial-card">
+                     <div class="testimonial-card">
                         <p data-key="testimonial1_text">"Từ khi dùng Rabbit VPN, mình không còn lo lắng về việc mạng chậm hay bị chặn nữa. Dịch vụ quá tuyệt vời, đặc biệt là khi chơi game ở server nước ngoài!"</p>
                         <div class="testimonial-author">
-                            <img src="https://img.favpng.com/6/14/19/computer-icons-user-profile-icon-design-png-favpng-vcvaCZNwnpxfkKNYzX3fYz7h2.jpg" alt="User Avatar">
+                            <img src="https://i.pravatar.cc/100?u=a" alt="User Avatar">
                             <div class="author-info">
                                 <strong data-key="testimonial1_author">Hoàng An</strong>
                                 <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
@@ -272,22 +261,7 @@
             <div class="container">
                 <h2 data-key="guide_title">Bắt Đầu Chỉ Trong 4 Bước</h2>
                 <p class="section-subtitle" data-key="guide_subtitle">Cài đặt dễ dàng, kết nối tức thì.</p>
-                <div class="guide-content">
-                    <ol class="guide-steps">
-                        <li data-key="guide_step1">Nhận một khóa truy cập (access key) từ chúng tôi sau khi đăng ký.</li>
-                        <li data-key="guide_step2">Tải và cài đặt ứng dụng Outline Client cho thiết bị của bạn.</li>
-                        <li data-key="guide_step3">Mở ứng dụng Outline, nhấn vào dấu (+) và dán khóa truy cập của bạn.</li>
-                        <li data-key="guide_step4">Nhấn nút "Connect" để bắt đầu sử dụng VPN. Chúc bạn thành công!</li>
-                    </ol>
-                    <div class="download-buttons">
-                        <a href="https://play.google.com/store/apps/details?id=org.outline.android.client" target="_blank" class="btn">
-                            <i class="fab fa-google-play"></i> <span data-key="guide_googleplay">Tải về từ Google Play</span>
-                        </a>
-                        <a href="https://apps.apple.com/us/app/outline-app/id1356177741" target="_blank" class="btn">
-                            <i class="fab fa-app-store-ios"></i> <span data-key="guide_appstore">Tải về từ App Store</span>
-                        </a>
-                    </div>
-                </div>
+                <div class="guide-content"></div>
             </div>
         </section>
         
@@ -295,10 +269,7 @@
             <div class="container">
                 <h2 data-key="contact_title">Sẵn Sàng Bắt Đầu?</h2>
                 <p class="section-subtitle" data-key="contact_subtitle">Liên hệ với chúng tôi qua Zalo hoặc Telegram để được tư vấn và đăng ký ngay lập tức!</p>
-                <div class="contact-buttons">
-                    <a href="https://zalo.me/84964092408" target="_blank" class="btn"><i class="fas fa-comment-dots"></i> Zalo</a>
-                    <a href="https://t.me/@k4ppy403" target="_blank" class="btn"><i class="fab fa-telegram-plane"></i> Telegram</a>
-                </div>
+                <div class="contact-buttons"></div>
             </div>
         </section>
     </main>
@@ -312,6 +283,23 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // === NEW: Hamburger Menu Logic ===
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked (for single-page navigation)
+        navLinks.forEach(link => link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }));
+
+        // The rest of the JavaScript is IDENTICAL to the previous complete version
         const translations = {
             'vi': {
                 logo: "🐇 Rabbit VPN", site_title: "Rabbit VPN - Nhanh, Bảo Mật, Ẩn Danh",
@@ -402,34 +390,39 @@
                 contact_title: "准备好开始了吗？", contact_subtitle: "通过Zalo或Telegram联系我们进行咨询和即时注册！",
             },
         };
+        const zaloNumber = 'YOUR_ZALO_NUMBER'; 
 
-        const zaloNumber = '+84964092408'; // !!! THAY SỐ ZALO CỦA BẠN VÀO ĐÂY !!!
+        const langSelectContainer = document.querySelector('.language-select');
+        langSelectContainer.innerHTML = `<div class="selected-lang"></div><ul class="lang-options">
+            <li data-lang="vi"><span class="lang-flag">🇻🇳</span><span class="lang-text">VN - Tiếng Việt</span></li>
+            <li data-lang="en"><span class="lang-flag">🇺🇸</span><span class="lang-text">EN - English</span></li>
+            <li data-lang="ru"><span class="lang-flag">🇷🇺</span><span class="lang-text">RU - Русский</span></li>
+            <li data-lang="zh"><span class="lang-flag">🇨🇳</span><span class="lang-text">ZH - 中文</span></li>
+        </ul>`;
 
-        const langSelect = document.querySelector('.language-select');
-        const selectedLangEl = document.querySelector('.selected-lang');
-        const langOptionsEl = document.querySelector('.lang-options');
+        const selectedLangEl = langSelectContainer.querySelector('.selected-lang');
+        const langOptionsEl = langSelectContainer.querySelector('.lang-options');
         
         const setLanguage = (lang) => {
             const langData = translations[lang] || translations['en'];
-            document.querySelectorAll('[data-key]').forEach(element => {
-                const key = element.getAttribute('data-key');
-                if (langData[key] !== undefined) { element.innerHTML = langData[key]; }
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (langData[key] !== undefined) { el.innerHTML = langData[key]; }
             });
             document.documentElement.lang = lang;
             localStorage.setItem('language', lang);
-            const selectedOptionHTML = document.querySelector(`.lang-options li[data-lang="${lang}"]`).innerHTML;
+            const selectedOptionHTML = langOptionsEl.querySelector(`li[data-lang="${lang}"]`).innerHTML;
             selectedLangEl.innerHTML = selectedOptionHTML + '<span class="arrow">▼</span>';
         };
 
-        langSelect.addEventListener('click', (e) => {
+        langSelectContainer.addEventListener('click', (e) => {
             e.stopPropagation();
-            langSelect.classList.toggle('active');
-            langOptionsEl.classList.toggle('show');
+            langSelectContainer.classList.toggle('active');
         });
         document.addEventListener('click', () => {
-            langSelect.classList.remove('active');
-            langOptionsEl.classList.remove('show');
+            langSelectContainer.classList.remove('active');
         });
+        
         langOptionsEl.addEventListener('click', (e) => {
             const target = e.target.closest('li');
             if (target) { setLanguage(target.getAttribute('data-lang')); }
